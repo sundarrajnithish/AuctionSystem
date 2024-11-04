@@ -1,7 +1,3 @@
-Based on the project description for an **Auction System** on the cloud, here is a sample GitHub README file that outlines the use of **React** and various **AWS services**:
-
----
-
 # Auction System in the Cloud
 
 This project implements a cloud-based **Auction System (AS)**, providing Software-as-a-Service (SaaS) to end-users. It enables users to register, offer items for auction, and bid on items, with real-time updates and competitive bidding. Built with **React** and leveraging various **AWS services**, the system is designed for scalability, elasticity, and a seamless user experience.
