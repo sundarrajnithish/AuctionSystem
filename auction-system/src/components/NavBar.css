@@ -2,9 +2,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #1b0e52; /* AWS Console dark color */
+    background-color: #ff0000; /* AWS Console dark color */
     padding: 10px 20px;
-    color: white;
+    color: rgb(255, 255, 255);
   }
   
   .navbar-logo a {
