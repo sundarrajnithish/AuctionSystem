@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-auctionsystem-dev-72191-authRole",
+      "UnauthRoleArn": "arn:aws:iam::490004649075:role/amplify-auctionsystem-dev-72191-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::490004649075:role/amplify-auctionsystem-dev-72191-authRole",
+      "Region": "ca-central-1",
+      "DeploymentBucketName": "amplify-auctionsystem-dev-72191-deployment",
+      "UnauthRoleName": "amplify-auctionsystem-dev-72191-unauthRole",
+      "StackName": "amplify-auctionsystem-dev-72191",
+      "StackId": "arn:aws:cloudformation:ca-central-1:490004649075:stack/amplify-auctionsystem-dev-72191/22b28790-9b27-11ef-ac22-022718888445",
+      "AmplifyAppId": "de60y0hy0w7i1"
+    },
+    "categories": {
+      "auth": {
+        "auctionsystemd9d8c43f": {}
+      }
+    }
+  }
+}
