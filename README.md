@@ -113,7 +113,3 @@ We welcome contributions! Please follow these steps to submit a pull request:
 ## License
 
 This project is licensed under the MIT License.
-
----
-
-This README covers the essential setup and configuration steps for an AWS-integrated auction system based on the provided project details.
