@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+
+import ProductCard from "../components/Cards/ProductCard";
+
+import { getProducts } from "../Services/GetProducts";
+import { Grid2 } from "@mui/material";
 
 const Home = () => {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    getProducts().then((res) => {
+      console.log(res.data);
+      setProducts(res.data);
+    });
+  }, []);
   return (
-    <div style={{ textAlign: 'center', padding: '50px' }}>
-      <h1>Welcome to the Most Anticipated Auction of All Time!</h1>
-      {/* You can add more content here later */}
-    </div>
+    <Grid2 container>
+      <ProductCard products={products} />
+    </Grid2>
   );
 };
 
