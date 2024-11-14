@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Authenticator } from "@aws-amplify/ui-react";
+import React, { useState } from "react-router-dom";
 import "./RegisterAuction.css";
 
 function RegisterAuction() {

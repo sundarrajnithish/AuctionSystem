@@ -23,7 +23,7 @@ const pages = [
   { id: 3, Menuname: "Cars", route: "/cars" },
   { id: 4, Menuname: "Luxuries", route: "/luxuries" },
   { id: 5, Menuname: "Historical", route: "/historical" },
-  { id: 5, Menuname: "Register Auction", route: "/RegisterAuction" },
+  { id: 6, Menuname: "Register Auction", route: "/RegisterAuction" },
 ];
 const settings = [
   { id: 1, Menuname: "Profile" },
