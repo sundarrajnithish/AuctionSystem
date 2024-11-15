@@ -5,29 +5,36 @@ body {
     background-color: #f7f9fc;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
 .new-auction-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    width: 100%;
+    padding: 20px;
     background-color: #f7f9fc;
 }
 
 .auction-card {
-    width: 450px;
+    width: 100%;
+    max-width: 500px;
     padding: 2rem;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    box-sizing: border-box;
 }
 
 .auction-card h2 {
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: #333;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .auction-card form {
@@ -38,7 +45,7 @@ body {
 .auction-card label {
     font-size: 1rem;
     color: #333;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
     text-align: left;
 }
 
@@ -46,7 +53,7 @@ body {
 .auction-card select,
 .auction-card textarea {
     padding: 0.8rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1rem;
@@ -62,7 +69,7 @@ body {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
 }
 
-textarea {
+.auction-card textarea {
     resize: vertical;
     min-height: 100px;
 }
@@ -71,7 +78,7 @@ textarea {
     width: 100%;
     height: auto;
     border-radius: 5px;
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -82,8 +89,10 @@ textarea {
     background-color: #007bff;
     color: white;
     font-size: 1rem;
+    font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 100%;
 }
 
 .btn-create-auction:hover {
@@ -94,4 +103,5 @@ textarea {
     color: #ff4d4d;
     margin-bottom: 1rem;
     font-size: 0.9rem;
+    text-align: left;
 }

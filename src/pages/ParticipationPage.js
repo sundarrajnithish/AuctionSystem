@@ -11,7 +11,7 @@ function ParticipationPage() {
             
             <div className="content">
                 <h2>Participate Easily</h2>
-                <p>Join us in making a difference! Follow these simple steps to participate in our charity auctions and help support our cause.</p>
+                <p>Join us in making a difference! Follow these simple steps to participate in our auctions.</p>
 
                 <Accordion>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -58,17 +58,6 @@ function ParticipationPage() {
                     <AccordionDetails>
                         <Typography>
                             If you have the highest bid at the end of the auction, you win! Complete your payment to finalize.
-                        </Typography>
-                    </AccordionDetails>
-                </Accordion>
-
-                <Accordion>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant="h6">Support Charity</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Typography>
-                            All proceeds go towards charity. Thank you for supporting a great cause!
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
