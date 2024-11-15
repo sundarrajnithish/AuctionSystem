@@ -4,7 +4,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link } from "react-router-dom";
 import "./ParticipationPage.css"; // Import custom styles
 
-function ParticipationGuide() {
+function ParticipationPage() {
     return (
         <div className="participation-guide">
             {/*<h1 className="logo">OneStopAuction</h1>*/}
