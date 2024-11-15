@@ -10,6 +10,7 @@ import awsExports from "./aws-exports";
 
 import "@aws-amplify/ui-react/styles.css";
 import RegisterAuction from "./pages/RegisterAuction";
+import ParticipationPage from "./pages/ParticipationPage";
 
 // Configure Amplify with AWS settings
 Amplify.configure(awsExports);
@@ -23,6 +24,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/RegisterAuction" element={<RegisterAuction />} />
+          <Route path="/ParticipationPage" element={<ParticipationPage />} />
           {/* Additional routes can be added here */}
         </Routes>
       </Router>
