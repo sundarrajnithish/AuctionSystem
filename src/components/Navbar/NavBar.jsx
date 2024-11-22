@@ -19,12 +19,9 @@ import "./NavBar.css";
 
 const pages = [
   { id: 1, Menuname: "Auction Home", route: "/home" },
-{/*  { id: 2, Menuname: "Books", route: "/books" },
-  { id: 3, Menuname: "Cars", route: "/cars" },
-  { id: 4, Menuname: "Luxuries", route: "/luxuries" },
-  { id: 5, Menuname: "Historical", route: "/historical" }, */},
-  { id: 6, Menuname: "Register Auction", route: "/RegisterAuction" },
-  { id: 7, Menuname: "Participation Guide", route: "/ParticipationPage" },
+
+  { id: 2, Menuname: "Register Auction", route: "/RegisterAuction" },
+  { id: 3, Menuname: "Participation Guide", route: "/ParticipationPage" },
 ];
 const settings = [
   { id: 1, Menuname: "Profile" },
@@ -190,7 +187,6 @@ const NavBar = () => {
                         handleCloseUserMenu();
                         if (setting.id === 4) {
                           // signOut();
-                          console.log("logging out");
                         }
                       }}
                     >
