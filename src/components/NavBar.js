@@ -1,36 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-//import { Authenticator } from '@aws-amplify/ui-react';
-import './NavBar.css';
+import React, { useState } from 'react';
+import './styles/Navbar.css';
 
-const NavBar = () => {
+const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
-    //<Authenticator>
-      //{({ signOut }) => ( // Destructure the signOut function from Authenticator
-        <nav className="navbar" style={{ backgroundColor: 'blue', color: 'white' }}>
-          <div className="navbar-logo">
-            <Link to="/">Modern Auction</Link>
-          </div>
-          <ul className="navbar-links">
-            <li><Link to="/home">Auction Home</Link></li>
-            <li><Link to="/services">Books</Link></li>
-           {/* <li><Link to="/analytics">Cars</Link></li>
-            <li><Link to="/dashboard">Luxuries</Link></li>
-            <li><Link to="/about">Historical</Link></li> */}
-            <li><Link to="/RegisterAuction">Register Auction</Link></li>
-            <li><Link to="/ParticipationPage">Participation Guide</Link></li>
-          </ul>
-        </nav>
-      //)}
-    //</Authenticator>
+    <nav className="navbar">
+      <div className="navbar-logo">
+        <span>Auction System</span>
+      </div>
+      <button className="menu-toggle" onClick={toggleMenu}>
+        ☰
+      </button>
+      <ul className={`navbar-links ${isMenuOpen ? 'active' : ''}`}>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
   );
 };
 
-// Removed Singout Button
-//<li>
-// <button onClick={signOut} style={{ backgroundColor: 'transparent', color: 'white', border: 'none', cursor: 'pointer' }}>
-// Sign Out
-// </button>
-// </li>
-
-export default NavBar;
+export default Navbar;
