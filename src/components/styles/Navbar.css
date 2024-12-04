@@ -21,6 +21,11 @@
   cursor: pointer;
 }
 
+.navbar-logo-image {
+  width: 25px; /* Adjust the size of the image */
+  height: auto;
+}
+
 .menu-toggle {
   display: none;
   font-size: 1.5rem;

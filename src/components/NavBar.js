@@ -18,15 +18,27 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <div className="navbar-logo">
-        <span onClick={handleLogoClick} style={{ cursor: 'pointer' }}>AuctionHub</span> {/* Clickable logo */}
+      <div className="navbar-left">
+        <button className="menu-toggle" onClick={toggleMenu}>
+          ☰
+        </button>
       </div>
-      <button className="menu-toggle" onClick={toggleMenu}>
-        ☰
-      </button>
-      <ul className={`navbar-links ${isMenuOpen ? 'active' : ''}`}>
-        <li><a href="/">Auctions</a></li>
-      </ul>
+
+      <div className="navbar-logo" onClick={handleLogoClick}>
+        <img 
+          src="https://auctionhub-assets.s3.ca-central-1.amazonaws.com/Logo.png" 
+          className="navbar-logo-image"
+          alt="AuctionHub Logo"
+          style={{ cursor: 'pointer', marginRight: '10px' }} 
+        />
+        <span style={{ cursor: 'pointer' }}>AuctionHub</span>
+      </div>
+
+      <div className="navbar-right">
+        <ul className={`navbar-links ${isMenuOpen ? 'active' : ''}`}>
+          <li><a href="/">Auctions</a></li>
+        </ul>
+      </div>
     </nav>
   );
 };
