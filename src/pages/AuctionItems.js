@@ -46,7 +46,7 @@ const AuctionItems = () => {
   }, [auctionId]); // Refetch if auctionId changes
 
   const handleItemClick = (itemId) => {
-    navigate(`/item/${itemId}`); // Navigate to item detail page
+    navigate(`/auction-item/${itemId}`); // Navigate to item detail page
   };
 
   if (loading) {

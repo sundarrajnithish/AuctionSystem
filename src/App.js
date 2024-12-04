@@ -20,7 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Auctions />} /> {/* Auctions page */}
         <Route path="/auction-items/:auctionId" element={<AuctionItems />} /> {/* Auction Items page */}
-        <Route path="/item/:itemId" element={<AuctionItem />} /> {/* Auction Item detail page */}
+        <Route path="/auction-item/:itemId" element={<AuctionItem />} /> {/* Auction Item detail page */}
       </Routes>
     </Router>
   );

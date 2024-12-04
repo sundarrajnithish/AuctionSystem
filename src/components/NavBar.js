@@ -17,7 +17,7 @@ const Navbar = () => {
         ☰
       </button>
       <ul className={`navbar-links ${isMenuOpen ? 'active' : ''}`}>
-        <li><a href="#home">Home</a></li>
+        <li><a href="/">Auctions</a></li>
       </ul>
     </nav>
   );
