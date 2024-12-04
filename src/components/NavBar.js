@@ -37,6 +37,7 @@ const Navbar = () => {
       <div className="navbar-right">
         <ul className={`navbar-links ${isMenuOpen ? 'active' : ''}`}>
           <li><a href="/">Auctions</a></li>
+          <li><a href="/my-auctions">My Auctions</a></li>
         </ul>
       </div>
     </nav>

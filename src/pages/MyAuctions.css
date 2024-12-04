@@ -1,0 +1,136 @@
+.my-auctions-container {
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    margin-top: 60px;
+    text-align: center;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .auction-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+    width: 50%;
+  }
+  
+  .auction-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    margin-bottom: 0;
+  }
+  
+  .auction-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .auction-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .auction-details {
+    padding: 15px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .auction-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .auction-status, .auction-bids {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .auction-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  .auction-actions button {
+    background: #9b2226;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+  }
+  
+  .auction-actions button:hover {
+    background: #7b1f21;
+  }
+  
+  .add-auction-tile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .add-auction-tile:hover {
+    transform: scale(1.05);
+  }
+  
+  .add-auction-tile-content {
+    text-align: center;
+  }
+  
+  .add-auction-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .confirmation-modal, .success-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .confirmation-modal p, .success-popup p {
+    margin-bottom: 15px;
+  }
+  
+  .confirm-button, .cancel-button, .ok-button {
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .confirm-button {
+    background: #4caf50;
+    color: white;
+    margin-right: 10px;
+  }
+  
+  .cancel-button {
+    background: #f44336;
+    color: white;
+  }
+  
+  .ok-button {
+    background: #00cc6e;
+    color: white;
+  }
+  

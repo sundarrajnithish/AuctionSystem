@@ -1,0 +1,116 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './MyAuctions.css';
+
+const MyAuctions = () => {
+  const [auctions, setAuctions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [deleteAuctionId, setDeleteAuctionId] = useState(null);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [successPopupVisible, setSuccessPopupVisible] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchAuctions();
+  }, []);
+
+  const fetchAuctions = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const userId = 'user-002'; // Static user ID for now; replace with actual user ID if needed
+      const response = await fetch(
+        `https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/user-id?user-id=${userId}`
+      );
+      const data = await response.json();
+      setAuctions(data.auctions);
+    } catch (err) {
+      setError('Failed to fetch auctions');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEdit = (auctionId) => {
+    navigate(`/provider/edit-auction/${auctionId}`);
+  };
+
+  const handleDelete = (auctionId) => {
+    setDeleteAuctionId(auctionId);
+    setShowDeleteConfirmation(true);
+  };
+
+  const confirmDelete = async () => {
+    setShowDeleteConfirmation(false);
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        `https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/user-id?auction-id=${deleteAuctionId}`,
+        {
+          method: 'DELETE',
+        }
+      );
+
+      if (response.ok) {
+        setSuccessPopupVisible(true);
+        fetchAuctions(); // Refresh auctions list
+      } else {
+        throw new Error('Failed to delete auction');
+      }
+    } catch (error) {
+      setError('Error deleting auction');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="my-auctions-container">
+      {loading && <div>Loading...</div>}
+      {error && <div>{error}</div>}
+
+      <div className="auction-grid">
+        <div className="add-auction-tile" onClick={() => navigate('/provider/add-auction')}>
+          <div className="add-auction-tile-content">
+            <span className="add-auction-text">Add Auction</span>
+          </div>
+        </div>
+
+        {auctions.map((auction) => (
+          <div key={auction['auction-id']} className="auction-card">
+            <img src={auction['img-url']} alt={auction['auction-name']} className="auction-image" />
+            <div className="auction-details">
+              <h2 className="auction-name">{auction['auction-name']}</h2>
+              <p className="auction-status">Status: {auction.status}</p>
+              <p className="auction-bids">Bids: {auction['number-of-bids']}</p>
+              <div className="auction-actions">
+                <button onClick={() => handleEdit(auction['auction-id'])}>Edit</button>
+                <button onClick={() => handleDelete(auction['auction-id'])}>Delete</button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {showDeleteConfirmation && (
+        <div className="confirmation-modal">
+          <p>Are you sure you want to delete this auction?</p>
+          <button className="confirm-button" onClick={confirmDelete}>Yes</button>
+          <button className="cancel-button" onClick={() => setShowDeleteConfirmation(false)}>No</button>
+        </div>
+      )}
+
+      {successPopupVisible && (
+        <div className="success-popup">
+          <p>Auction has been deleted successfully.</p>
+          <button className="ok-button" onClick={() => setSuccessPopupVisible(false)}>OK</button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default MyAuctions;
