@@ -11,7 +11,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <span>Auction System</span>
+        <span>AuctionHub</span>
       </div>
       <button className="menu-toggle" onClick={toggleMenu}>
         ☰

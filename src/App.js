@@ -6,7 +6,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 
 // Pages
-import Home from './pages/Home';
+import Auctions from './pages/Auctions';
+import AuctionItems from './pages/AuctionItems';
+import AuctionItem from './pages/AuctionItem';
 
 // Styles
 import './App.css';
@@ -14,10 +16,12 @@ import './App.css';
 function App() {
   return (
     <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Auctions />} /> {/* Auctions page */}
+        <Route path="/auction-items/:auctionId" element={<AuctionItems />} /> {/* Auction Items page */}
+        <Route path="/item/:itemId" element={<AuctionItem />} /> {/* Auction Item detail page */}
+      </Routes>
     </Router>
   );
 }

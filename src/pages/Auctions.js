@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Home.css'; // Ensure styles are applied
+import './Auctions.css'; // Ensure styles are applied
 
-const Home = () => {
+const Auctions = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]); // State to store categories
   const [loading, setLoading] = useState(true); // State to track loading status
@@ -12,40 +12,39 @@ const Home = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/category'); // Replace with your API URL
+        const response = await fetch('https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions');
         const data = await response.json();
-        
-        // Extracting relevant data from the response
+
         const fetchedCategories = data.data.map(item => ({
-          title: item.Title.S,
-          description: item.Description.S,
-          imgUrl: item.ImgUrl.S,
-          Category: item.Category.S.toLowerCase(), // Using category as slug
+          title: item['auction-name'].S,
+          description: item.status.S,
+          imgUrl: item['img-url'].S,
+          auctionId: item['auction-id'].S, // Added auctionId for navigation
         }));
 
         setCategories(fetchedCategories); // Update state with fetched categories
       } catch (err) {
-        setError('Failed to fetch categories');
+        setError('Failed to fetch auction items');
         console.error(err);
       } finally {
-        setLoading(false); // Set loading to false after the request is complete
+        setLoading(false);
       }
     };
 
     fetchCategories();
-  }, []); // Empty dependency array to run the effect once on component mount
+  }, []);
 
-  const handleCategoryClick = (category) => {
-    // Navigate to the dynamic route
-    navigate(`/products/${category.slug}`);
+  const handleCategoryClick = (auctionId) => {
+    // Navigate to AuctionItems page with auction-id in the URL
+    navigate(`/auction-items/${auctionId}`);
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading message while data is being fetched
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>; // Show error message if there was a problem fetching data
+    return <div>{error}</div>;
   }
 
   return (
@@ -56,7 +55,7 @@ const Home = () => {
           <div
             key={index}
             className="category-tile"
-            onClick={() => handleCategoryClick(category)}  // Navigate to dynamic URL
+            onClick={() => handleCategoryClick(category.auctionId)} // Pass auctionId to AuctionItems page
           >
             <img src={category.imgUrl} alt={category.title} className="category-img" />
             <div className="category-content">
@@ -70,4 +69,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Auctions;

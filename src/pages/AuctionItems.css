@@ -1,0 +1,84 @@
+h1 {
+    color: #f0f0f0;
+    padding-top: 50px;
+  }
+  
+  .auction-items-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0px 20px;
+    background-color: #001219;
+    min-height: 100vh; /* Ensures the container takes up at least the full viewport height */
+    -ms-overflow-style: none;
+
+  }
+  
+  @media (max-width: 768px) {
+    .auction-items-container {
+      min-height: calc(100vh - 60px); /* Handle smaller screens by ensuring it's full screen minus navbar */
+    }
+  }
+  
+  .item-grid {
+    margin: 20px 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 400px;
+    width: 50%;
+  }
+  
+  .item-tile {
+    color: #001219;
+    border: solid 1px grey;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.5s ease-in-out;
+    min-height: 400px;
+  }
+  
+  .item-tile:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 15px rgba(255, 0, 0, 1);
+  }
+  
+  .item-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: solid 1px grey;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  }
+  
+  .item-content {
+    padding: 20px;
+  }
+  
+  .item-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .item-description {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .item-bid {
+    font-size: 18px;
+    font-weight: bold;
+    color: #d9534f;
+  }
+  
+  .item-seller,
+  .item-last-bid,
+  .item-listed {
+    font-size: 14px;
+    color: #777;
+  }
+  
