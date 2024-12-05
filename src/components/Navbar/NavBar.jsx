@@ -15,11 +15,9 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import PriceChangeTwoToneIcon from "@mui/icons-material/PriceChangeTwoTone";
-import "./NavBar.css";
 
 const pages = [
   { id: 1, Menuname: "Auction Home", route: "/home" },
-
   { id: 2, Menuname: "Register Auction", route: "/RegisterAuction" },
   { id: 3, Menuname: "Participation Guide", route: "/ParticipationPage" },
 ];
@@ -53,9 +51,9 @@ const NavBar = () => {
   return (
     <Authenticator>
       {({ signOut }) => (
-        <AppBar position="static">
+        <AppBar position="static" color="primary">
           <Container maxWidth="xl">
-            <Toolbar disableGutters>
+            <Toolbar disableGutters color="secondary">
               <PriceChangeTwoToneIcon
                 sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
               />
@@ -105,7 +103,7 @@ const NavBar = () => {
                 >
                   {pages.map((page) => (
                     <MenuItem
-                      key={page.Menuname}
+                      key={Math.random()}
                       onClick={(e) => {
                         e.preventDefault();
                         navigate(`${page.route}`);
@@ -142,7 +140,7 @@ const NavBar = () => {
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                 {pages.map((page) => (
                   <Button
-                    key={page}
+                    key={Math.random()}
                     onClick={(e) => {
                       navigate(`${page.route}`);
                       e.preventDefault();
@@ -181,12 +179,12 @@ const NavBar = () => {
                 >
                   {settings.map((setting) => (
                     <MenuItem
-                      key={setting.id}
+                      key={Math.random()}
                       onClick={(e) => {
                         e.preventDefault();
                         handleCloseUserMenu();
                         if (setting.id === 4) {
-                          // signOut();
+                          signOut(e);
                         }
                       }}
                     >
