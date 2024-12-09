@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 // Components
-import Navbar from './components/Navbar';
+import Navbar from './components/navbar';
 
 // Pages
 import Auctions from './pages/Auctions';
