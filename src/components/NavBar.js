@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Authenticator } from '@aws-amplify/ui-react';
+
 import './Navbar.css';
 
 const Navbar = () => {
@@ -17,6 +19,8 @@ const Navbar = () => {
   };
 
   return (
+    <Authenticator>
+      {({ signOut }) => ( // Destructure the signOut function from Authenticator
     <nav className="navbar">
       <div className="navbar-left">
         <button className="menu-toggle" onClick={toggleMenu}>
@@ -41,6 +45,8 @@ const Navbar = () => {
         </ul>
       </div>
     </nav>
+    )}
+    </Authenticator>
   );
 };
 
