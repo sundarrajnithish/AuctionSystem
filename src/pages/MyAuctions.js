@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/AuthContext'; // Import the useAuth hook
 import './MyAuctions.css';
 
 const MyAuctions = () => {
@@ -10,19 +11,24 @@ const MyAuctions = () => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [successPopupVisible, setSuccessPopupVisible] = useState(false);
   const navigate = useNavigate();
+  const { currentUser, getEmail } = useAuth(); // Get currentUser and getEmail function from AuthContext
 
+  const userEmail = getEmail(); // Retrieve email using getEmail function
+
+  // Only run fetch if userEmail is available
   useEffect(() => {
-    fetchAuctions();
-  }, []);
+    if (userEmail) {
+      fetchAuctions(userEmail); // Fetch auctions only if user is authenticated
+    }
+  }, [userEmail]);
 
-  const fetchAuctions = async () => {
+  const fetchAuctions = async (userEmail) => {
     setLoading(true);
     setError(null);
 
     try {
-      const userId = 'user-002'; // Static user ID for now; replace with actual user ID if needed
       const response = await fetch(
-        `https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/user-id?user-id=${userId}`
+        `https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/user-id?user-id=${userEmail}`
       );
       const data = await response.json();
       setAuctions(data.auctions);
@@ -56,7 +62,7 @@ const MyAuctions = () => {
 
       if (response.ok) {
         setSuccessPopupVisible(true);
-        fetchAuctions(); // Refresh auctions list
+        fetchAuctions(userEmail); // Refresh auctions list after deletion
       } else {
         throw new Error('Failed to delete auction');
       }
@@ -66,6 +72,11 @@ const MyAuctions = () => {
       setLoading(false);
     }
   };
+
+  // Ensure email is not null or undefined before rendering
+  if (!userEmail) {
+    return <div>User not authenticated or email missing</div>;
+  }
 
   return (
     <div className="my-auctions-container">

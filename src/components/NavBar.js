@@ -42,7 +42,13 @@ const Navbar = () => {
         <ul className={`navbar-links ${isMenuOpen ? 'active' : ''}`}>
           <li><a href="/">Auctions</a></li>
           <li><a href="/my-auctions">My Auctions</a></li>
+          <li>
+              <button onClick={signOut} style={{ backgroundColor: 'transparent', color: 'white', border: 'none', cursor: 'pointer' }}>
+                Sign Out
+              </button>
+            </li>
         </ul>
+        
       </div>
     </nav>
     )}

@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 // Components
-import Navbar from './components/NavBar.js';
+import Navbar from './components/NavBar';
 
 // Pages
 import Auctions from './pages/Auctions';
@@ -14,6 +14,7 @@ import ProductFormPage from './pages/ProductFormPage';
 import {Amplify} from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import awsconfig from './aws-exports';
+import { AuthProvider } from './components/AuthContext'; // Import AuthProvider
 
 
 
@@ -28,6 +29,7 @@ Amplify.configure(awsconfig);
 function App() {
   return (
     <Authenticator>
+      <AuthProvider>
     <Router>
       <Navbar />
       <Routes>
@@ -38,6 +40,7 @@ function App() {
         <Route path="/provider/add-auction" element={<ProductFormPage />} /> {/* Product form page */}
       </Routes>
     </Router>
+    </AuthProvider>
     </Authenticator>
   );
 }
