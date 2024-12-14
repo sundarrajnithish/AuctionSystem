@@ -34,7 +34,10 @@ const Auctions = () => {
     fetchCategories();
   }, []);
 
-  const handleCategoryClick = (auctionId) => {
+  const handleCategoryClick = (auctionId, title) => {
+    // Store the category title in sessionStorage
+    sessionStorage.setItem('categoryTitle', title);
+    console.log('categoryTitle:', title);
     // Navigate to AuctionItems page with auction-id in the URL
     navigate(`/auction-items/${auctionId}`);
   };
@@ -51,19 +54,19 @@ const Auctions = () => {
     <div className="home-container">
       <h1>EXPLORE ACTIVE AUCTIONS</h1>
       <div className="category-grid">
-        {categories.map((category, index) => (
-          <div
-            key={index}
-            className="category-tile"
-            onClick={() => handleCategoryClick(category.auctionId)} // Pass auctionId to AuctionItems page
-          >
-            <img src={category.imgUrl} alt={category.title} className="category-img" />
-            <div className="category-content">
-              <h2 className="category-title">{category.title}</h2>
-              <p className="category-description">{category.description}</p>
-            </div>
+      {categories.map((category, index) => (
+        <div
+          key={index}
+          className="category-tile"
+          onClick={() => handleCategoryClick(category.auctionId, category.title)} // Pass both auctionId and title
+        >
+          <img src={category.imgUrl} alt={category.title} className="category-img" />
+          <div className="category-content">
+            <h2 className="category-title">{category.title}</h2>
+            <p className="category-description">{category.description}</p>
           </div>
-        ))}
+        </div>
+      ))}
       </div>
     </div>
   );

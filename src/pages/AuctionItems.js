@@ -57,9 +57,11 @@ const AuctionItems = () => {
     return <div>{error}</div>;
   }
 
+  const AuctionName = sessionStorage.getItem('categoryTitle');
+
   return (
     <div className="auction-items-container">
-      <h1>ITEMS LISTED IN {auctionId}</h1>
+      <h1>ITEMS LISTED IN {AuctionName}</h1>
       <div className="item-grid">
       {items.map(item => (
         <div
