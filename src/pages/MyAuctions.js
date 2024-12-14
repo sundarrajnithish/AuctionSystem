@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../components/AuthContext'; // Import the useAuth hook
+
 import './MyAuctions.css';
 
-const MyAuctions = () => {
+const MyAuctions = ({ user }) => {
   const [auctions, setAuctions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,21 +11,14 @@ const MyAuctions = () => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [successPopupVisible, setSuccessPopupVisible] = useState(false);
   const navigate = useNavigate();
-  const { currentUser, getEmail } = useAuth(); // Get currentUser and getEmail function from AuthContext
 
-  const userEmail = getEmail(); // Retrieve email using getEmail function
-
-  // Only run fetch if userEmail is available
-  useEffect(() => {
-    if (userEmail) {
-      fetchAuctions(userEmail); // Fetch auctions only if user is authenticated
-    }
-  }, [userEmail]);
+  const userEmail = sessionStorage.getItem('loginId');
+  console.log(userEmail);
 
   const fetchAuctions = async (userEmail) => {
     setLoading(true);
     setError(null);
-
+    console.log(userEmail);
     try {
       const response = await fetch(
         `https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/user-id?user-id=${userEmail}`
@@ -74,6 +67,12 @@ const MyAuctions = () => {
   };
 
   // Ensure email is not null or undefined before rendering
+  useEffect(() => {
+    if (userEmail) {
+      fetchAuctions(userEmail); // Fetch auctions when component mounts
+    }
+  }, [userEmail]); // Depend on userEmail to refetch when it changes
+
   if (!userEmail) {
     return <div>User not authenticated or email missing</div>;
   }

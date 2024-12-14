@@ -1,5 +1,4 @@
-// Packages
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 // Components
@@ -12,37 +11,40 @@ import AuctionItem from './pages/AuctionItem';
 import MyAuctions from './pages/MyAuctions';
 import ProductFormPage from './pages/ProductFormPage';
 import {Amplify} from 'aws-amplify';
-import { Authenticator } from '@aws-amplify/ui-react';
-import awsconfig from './aws-exports';
-import { AuthProvider } from './components/AuthContext'; // Import AuthProvider
+import { Authenticator, withAuthenticator } from '@aws-amplify/ui-react';
 
-
+import config from './amplifyconfiguration.json';
 
 // Styles
 import './App.css';
 import '@aws-amplify/ui-react/styles.css';
 
 // Configure Amplify
-Amplify.configure(awsconfig);
+Amplify.configure(config);
 
+function App({ user }) {
+  useEffect(() => {
+    if (user) {
+      // Save loginId to sessionStorage after login
+      sessionStorage.setItem('loginId', user.signInDetails.loginId);
+    }
+  }, [user]); // Only runs when the user object changes
 
-function App() {
   return (
     <Authenticator>
-      <AuthProvider>
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Auctions />} /> {/* Auctions page */}
-        <Route path="/auction-items/:auctionId" element={<AuctionItems />} /> {/* Auction Items page */}
-        <Route path="/auction-item/:itemId" element={<AuctionItem />} /> {/* Auction Item detail page */}
-        <Route path="/my-auctions" element={<MyAuctions />} /> {/* My Auctions page */}
-        <Route path="/provider/add-auction" element={<ProductFormPage />} /> {/* Product form page */}
-      </Routes>
-    </Router>
-    </AuthProvider>
+      <Router>
+        <Navbar />
+        {/* <h1>Logged in as {user?.signInDetails?.loginId}</h1> */}
+        <Routes>
+          <Route path="/" element={<Auctions />} /> {/* Auctions page */}
+          <Route path="/auction-items/:auctionId" element={<AuctionItems />} /> {/* Auction Items page */}
+          <Route path="/auction-item/:itemId" element={<AuctionItem />} /> {/* Auction Item detail page */}
+          <Route path="/my-auctions" element={<MyAuctions />} /> {/* My Auctions page */}
+          <Route path="/provider/add-auction" element={<ProductFormPage />} /> {/* Product form page */}
+        </Routes>
+      </Router>
     </Authenticator>
   );
 }
 
-export default App;
+export default withAuthenticator(App);
