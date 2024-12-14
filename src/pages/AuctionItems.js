@@ -9,6 +9,13 @@ const AuctionItems = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Store the auctionId in sessionStorage
+  useEffect(() => {
+    if (auctionId) {
+      sessionStorage.setItem('auctionId', auctionId); // Store auctionId in sessionStorage
+    }
+  }, [auctionId]);
+
   // Fetch auction items for the specific auction-id
   const fetchAuctionItems = async () => {
     try {
@@ -63,7 +70,7 @@ const AuctionItems = () => {
     return <div>{error}</div>;
   }
 
-  const AuctionName = sessionStorage.getItem('categoryTitle');
+  const AuctionName = sessionStorage.getItem('categoryTitle'); // Get the auction category name
 
   return (
     <div className="auction-items-container">

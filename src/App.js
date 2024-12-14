@@ -14,6 +14,8 @@ import {Amplify} from 'aws-amplify';
 import { Authenticator, withAuthenticator } from '@aws-amplify/ui-react';
 import EditAuctionFormPage from './pages/EditAuctionFormPage';
 
+import ItemFormPage from './pages/ItemFormPage';
+
 import config from './amplifyconfiguration.json';
 
 // Styles
@@ -43,6 +45,7 @@ function App({ user }) {
           <Route path="/my-auctions" element={<MyAuctions />} /> {/* My Auctions page */}
           <Route path="/provider/add-auction" element={<AuctionFormPage />} /> {/* Product form page */}
           <Route path="/provider/edit-auction/:auctionId" element={<EditAuctionFormPage />} />
+          <Route path="/list-item" element={<ItemFormPage />} /> {/* Product form page */}
         </Routes>
       </Router>
     </Authenticator>

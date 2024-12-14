@@ -63,6 +63,7 @@ const AuctionFormPage = () => {
           setName('');
           setDescription('');
           setTitleImage(null);
+          window.history.back();
         } else {
           alert('Failed to save auction');
         }

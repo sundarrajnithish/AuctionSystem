@@ -29,13 +29,16 @@ const EditAuctionFormPage = () => {
           // Clean out everything before the URL if necessary
           let imageUrl = auction["img-url"];
           
-          // If the image URL contains a base64 prefix, clean it out
-          if (imageUrl && imageUrl.startsWith('data:image/jpeg;base64,')) {
-            imageUrl = imageUrl.replace('data:image/jpeg;base64,', ''); // Remove base64 prefix
+          // If the image URL is not in base64, fetch it and convert to base64
+          if (imageUrl && !imageUrl.startsWith('data:image/jpeg;base64,')) {
+            const response = await fetch(imageUrl);
+            const blob = await response.blob();
+            const reader = new FileReader();
+            reader.onloadend = () => setTitleImage(reader.result.split(',')[1]); // Set base64 string
+            reader.readAsDataURL(blob); // Convert to base64
+          } else {
+            setTitleImage(imageUrl ? imageUrl.replace('data:image/jpeg;base64,', '') : null); // Clean if base64
           }
-  
-          // Set the cleaned URL for the image
-          setTitleImage(imageUrl); // Store the URL as is
         } else {
           alert('Failed to fetch auction details.');
         }
@@ -83,7 +86,7 @@ const EditAuctionFormPage = () => {
       const updatedAuctionData = {
         "auction-name": name,
         description: description,
-        titleImage: titleImage, // Send cleaned URL or base64 string as needed
+        titleImage: titleImage, // Send base64 string for the image
         "user-id": userId,
       };
 
@@ -99,6 +102,7 @@ const EditAuctionFormPage = () => {
 
         if (response.ok) {
           alert('Auction updated successfully!');
+          window.history.back();
         } else {
           alert('Failed to update auction.');
         }
@@ -144,16 +148,15 @@ const EditAuctionFormPage = () => {
 
           {/* Title Image */}
           <div className="image-preview">
-            <label htmlFor="title-image">Upload Auction Image</label>
+            <label htmlFor="title-image">Update Auction Image</label>
             <input
               type="file"
               id="title-image"
               accept="image/*"
               onChange={handleImageChange}
             />
-            {titleImage && !titleImage.startsWith('data:image/jpeg;base64,') && (
-              <img src={titleImage} alt="Preview" />
-            )}
+            {titleImage && <img key={titleImage} src={`data:image/jpeg;base64,${titleImage}`} alt="Preview" />}
+            {errors.titleImage && <p className="error">{errors.titleImage}</p>}
           </div>
 
           <button type="submit" disabled={loading}>
