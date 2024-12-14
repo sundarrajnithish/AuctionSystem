@@ -12,6 +12,7 @@ import MyAuctions from './pages/MyAuctions';
 import AuctionFormPage from './pages/AuctionFormPage';
 import {Amplify} from 'aws-amplify';
 import { Authenticator, withAuthenticator } from '@aws-amplify/ui-react';
+import EditAuctionFormPage from './pages/EditAuctionFormPage';
 
 import config from './amplifyconfiguration.json';
 
@@ -41,6 +42,7 @@ function App({ user }) {
           <Route path="/auction-item/:itemId" element={<AuctionItem />} /> {/* Auction Item detail page */}
           <Route path="/my-auctions" element={<MyAuctions />} /> {/* My Auctions page */}
           <Route path="/provider/add-auction" element={<AuctionFormPage />} /> {/* Product form page */}
+          <Route path="/provider/edit-auction/:auctionId" element={<EditAuctionFormPage />} />
         </Routes>
       </Router>
     </Authenticator>
