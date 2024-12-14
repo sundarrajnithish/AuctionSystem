@@ -47,7 +47,7 @@ const MyAuctions = ({ user }) => {
 
     try {
       const response = await fetch(
-        `https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/user-id?auction-id=${deleteAuctionId}`,
+        `https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/edit?auctionId=${deleteAuctionId}`,
         {
           method: 'DELETE',
         }
