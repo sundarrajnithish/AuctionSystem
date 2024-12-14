@@ -26,7 +26,7 @@ const MyAuctions = ({ user }) => {
       const data = await response.json();
       setAuctions(data.auctions);
     } catch (err) {
-      setError('Failed to fetch auctions');
+      setError('You have no auctions listed');
     } finally {
       setLoading(false);
     }
