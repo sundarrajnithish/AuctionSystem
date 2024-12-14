@@ -9,7 +9,7 @@ import Auctions from './pages/Auctions';
 import AuctionItems from './pages/AuctionItems';
 import AuctionItem from './pages/AuctionItem';
 import MyAuctions from './pages/MyAuctions';
-import ProductFormPage from './pages/ProductFormPage';
+import AuctionFormPage from './pages/AuctionFormPage';
 import {Amplify} from 'aws-amplify';
 import { Authenticator, withAuthenticator } from '@aws-amplify/ui-react';
 
@@ -40,7 +40,7 @@ function App({ user }) {
           <Route path="/auction-items/:auctionId" element={<AuctionItems />} /> {/* Auction Items page */}
           <Route path="/auction-item/:itemId" element={<AuctionItem />} /> {/* Auction Item detail page */}
           <Route path="/my-auctions" element={<MyAuctions />} /> {/* My Auctions page */}
-          <Route path="/provider/add-auction" element={<ProductFormPage />} /> {/* Product form page */}
+          <Route path="/provider/add-auction" element={<AuctionFormPage />} /> {/* Product form page */}
         </Routes>
       </Router>
     </Authenticator>

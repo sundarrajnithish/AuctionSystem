@@ -13,12 +13,12 @@ const MyAuctions = ({ user }) => {
   const navigate = useNavigate();
 
   const userEmail = sessionStorage.getItem('loginId');
-  console.log(userEmail);
+  // console.log(userEmail);
 
   const fetchAuctions = async (userEmail) => {
     setLoading(true);
     setError(null);
-    console.log(userEmail);
+    // console.log(userEmail);
     try {
       const response = await fetch(
         `https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/user-id?user-id=${userEmail}`
