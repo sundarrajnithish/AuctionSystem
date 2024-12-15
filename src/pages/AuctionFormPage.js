@@ -8,6 +8,7 @@ const AuctionFormPage = () => {
   const [titleImage, setTitleImage] = useState(null);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [enhancing, setEnhancing] = useState(false); // New state for button loading status
 
   // Handle title image changes
   const handleImageChange = (event) => {
@@ -76,6 +77,32 @@ const AuctionFormPage = () => {
     }
   };
 
+  const handleEnhanceDescription = async () => {
+    if (!description) {
+      alert('Please enter a description to enhance.');
+      return;
+    }
+
+    setEnhancing(true);
+
+    try {
+      const apiUrl = `https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/items/AI?keywords=${encodeURIComponent(description)}&type=1`;
+      const response = await fetch(apiUrl);
+
+      if (response.ok) {
+        const data = await response.json();
+        setDescription(data.description); // Update the description field with the enhanced description
+      } else {
+        alert('Failed to enhance description');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while enhancing the description.');
+    } finally {
+      setEnhancing(false);
+    }
+  };
+
   return (
     <div className="auction-form-page">
       <h1>Create New Auction</h1>
@@ -103,6 +130,10 @@ const AuctionFormPage = () => {
           />
           {errors.description && <p className="error">{errors.description}</p>}
         </div>
+
+        <button type="button" onClick={handleEnhanceDescription} disabled={enhancing}>
+          {enhancing ? 'Enhancing...' : 'Enhance Description with AI'}
+        </button>
 
         {/* Title Image */}
         <div className="image-preview">

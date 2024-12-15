@@ -10,6 +10,7 @@ const ItemFormPage = () => {
   const [itemImage, setItemImage] = useState(null);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [enhancing, setEnhancing] = useState(false); // New state for button loading status
 
   // Handle image changes
   const handleImageChange = (event) => {
@@ -37,27 +38,24 @@ const ItemFormPage = () => {
     if (validateForm()) {
       setLoading(true);
   
-      // Get auction-id and user-id from sessionStorage
-      const auctionId = sessionStorage.getItem('auctionId'); // Assuming auctionId is stored
-      const userId = sessionStorage.getItem('loginId'); // Assuming loginId is the user ID
+      const auctionId = sessionStorage.getItem('auctionId');
+      const userId = sessionStorage.getItem('loginId');
   
-      // Check if auctionId and userId exist
       if (!auctionId || !userId) {
         alert('Auction or User not found');
         setLoading(false);
         return;
       }
   
-      // Correct the payload structure
       const itemData = {
         "item-name": itemName,
         "description": description,
         "starting-bid": startingBid,
         "current-bid": currentBid,
-        "img-url": itemImage,  // Sending the base64 image data
+        "img-url": itemImage,
         "auction-id": auctionId,
         "seller-id": userId,
-        "bidder-id": '', // Initially no bidder
+        "bidder-id": '',
         "timestamp-listed": new Date().toISOString(),
         "timestamp-last-bid": "none"
       };
@@ -66,7 +64,7 @@ const ItemFormPage = () => {
         const response = await fetch('https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/items/item-details', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(itemData) // Send correctly formatted item data
+          body: JSON.stringify(itemData)
         });
   
         if (response.ok) {
@@ -88,7 +86,33 @@ const ItemFormPage = () => {
       }
     }
   };
-  
+
+  // Enhance description with API call
+  const handleEnhanceDescription = async () => {
+    if (!description) {
+      alert('Please enter a description to enhance.');
+      return;
+    }
+
+    setEnhancing(true);
+
+    try {
+      const apiUrl = `https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/items/AI?keywords=${encodeURIComponent(description)}&type=2`;
+      const response = await fetch(apiUrl);
+
+      if (response.ok) {
+        const data = await response.json();
+        setDescription(data.description); // Update the description field with the enhanced description
+      } else {
+        alert('Failed to enhance description');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while enhancing the description.');
+    } finally {
+      setEnhancing(false);
+    }
+  };
 
   return (
     <div className="item-form-page">
@@ -118,6 +142,10 @@ const ItemFormPage = () => {
           {errors.description && <p className="error">{errors.description}</p>}
         </div>
 
+        <button type="button" onClick={handleEnhanceDescription} disabled={enhancing}>
+          {enhancing ? 'Enhancing...' : 'Enhance Description with AI'}
+        </button>
+
         {/* Starting Bid */}
         <div>
           <label htmlFor="starting-bid">Starting Bid</label>
@@ -125,21 +153,9 @@ const ItemFormPage = () => {
             type="number"
             id="starting-bid"
             value={startingBid}
-            onChange={(e) => setStartingBid(e.target.value)}
+            onChange={(e) => { setStartingBid(e.target.value); setCurrentBid(e.target.value); }}
           />
           {errors.startingBid && <p className="error">{errors.startingBid}</p>}
-        </div>
-
-        {/* Current Bid */}
-        <div>
-          <label htmlFor="current-bid">Current Bid</label>
-          <input
-            type="number"
-            id="current-bid"
-            value={currentBid}
-            onChange={(e) => setCurrentBid(e.target.value)}
-          />
-          {errors.currentBid && <p className="error">{errors.currentBid}</p>}
         </div>
 
         {/* Item Image */}

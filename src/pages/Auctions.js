@@ -17,7 +17,7 @@ const Auctions = () => {
 
         const fetchedCategories = data.data.map(item => ({
           title: item['auction-name'].S,
-          description: item.status.S,
+          description: item['description'].S,
           imgUrl: item['img-url'].S,
           auctionId: item['auction-id'].S, // Added auctionId for navigation
         }));
