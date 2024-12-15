@@ -26,6 +26,8 @@ const AuctionItem = () => {
     try {
       const response = await fetch(url);
       const data = await response.json();
+      const bidders = data.data[0]['bidders'] || [];
+      sessionStorage.setItem('bidders', JSON.stringify(bidders));
       console.log('API Response:', data);
 
       if (data.message === 'Items retrieved successfully') {
@@ -69,9 +71,12 @@ const AuctionItem = () => {
     fetchAuctionItem();
   }, [itemId]);
 
+  const bid = sessionStorage.getItem('bidders');
+  console.log('Bid:', bid);
   // Effect to detect when timeLeft is 0 and reload the page after 2 seconds
   useEffect(() => {
-    if (timeLeft === 0 && bidders.length == 0) {
+    if (timeLeft === 0 && bid.length == 0) {
+      console.log();
       const reloadTimeout = setTimeout(() => {
         console.log('Time expired. Reloading the page...');
         window.location.reload();
