@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import './AuctionItem.css'; // Ensure styles are applied
+import { useParams } from 'react-router-dom';
+import './AuctionItem.css';
 
 const AuctionItem = () => {
-  const { itemId } = useParams(); // Get item-id from URL params
-  const navigate = useNavigate();
+  const { itemId } = useParams();
   const [item, setItem] = useState(null);
   const [timeLeft, setTimeLeft] = useState(0);
   const [timerActive, setTimerActive] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [bidders, setBidders] = useState([]); // State to store bidders
+  const [bidders, setBidders] = useState([]);
 
   // Function to format time in mm:ss format
   const formatTime = (seconds) => {
@@ -31,27 +30,31 @@ const AuctionItem = () => {
 
       if (data.message === 'Items retrieved successfully') {
         const auctionItem = data.data[0];
-        const endTimestamp = new Date(auctionItem['timestamp-listed']).getTime() + 5 * 60 * 1000; // Auction ends after 5 minutes
         setItem(auctionItem);
 
-        // Set the initial time left
-        setTimeLeft(Math.max(0, Math.floor((endTimestamp - Date.now()) / 1000)));
+        const endTimestamp = new Date(auctionItem['timestamp-listed']).getTime() + 5 * 60 * 1000; // Auction ends after 5 minutes
+        const currentTime = Date.now();
+        const remainingTime = Math.max(0, Math.floor((endTimestamp - currentTime) / 1000));
+        setTimeLeft(remainingTime);
+        setTimerActive(remainingTime > 0);
 
-        // Initialize bidders array
-        setBidders(auctionItem['bidders'] || []); // Handle empty or undefined bidders
-
-        // Start countdown timer
-        const timerInterval = setInterval(() => {
-          const remainingTime = Math.max(0, Math.floor((endTimestamp - Date.now()) / 1000));
-          setTimeLeft(remainingTime);
-
-          if (remainingTime === 0) {
-            clearInterval(timerInterval);
-            setTimerActive(false); // Disable bidding after auction ends
-          }
-        }, 1000);
-
+        setBidders(auctionItem['bidders'] || []);
         setLoading(false);
+
+        if (remainingTime > 0) {
+          // Start countdown timer
+          const timerInterval = setInterval(() => {
+            const updatedTime = Math.max(0, Math.floor((endTimestamp - Date.now()) / 1000));
+            setTimeLeft(updatedTime);
+
+            if (updatedTime === 0) {
+              clearInterval(timerInterval);
+              setTimerActive(false);
+            }
+          }, 1000);
+
+          return () => clearInterval(timerInterval); // Cleanup timer on component unmount
+        }
       } else {
         setError('Failed to fetch auction item details');
       }
@@ -61,11 +64,25 @@ const AuctionItem = () => {
     }
   };
 
+  // Effect to fetch data initially
   useEffect(() => {
     fetchAuctionItem();
   }, [itemId]);
 
-  // Function to handle bidding (disabled when the timer ends)
+  // Effect to detect when timeLeft is 0 and reload the page after 2 seconds
+  useEffect(() => {
+    if (timeLeft === 0) {
+      const reloadTimeout = setTimeout(() => {
+        console.log('Time expired. Reloading the page...');
+        window.location.reload();
+      }, 2000); // 2 seconds
+
+      return () => clearTimeout(reloadTimeout); // Cleanup timeout on component unmount
+    }
+  }, [timeLeft]);
+
+
+  // Handle bidding
   const handleBid = async () => {
     if (!timerActive) return;
 
