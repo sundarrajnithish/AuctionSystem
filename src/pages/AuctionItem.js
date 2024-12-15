@@ -71,7 +71,7 @@ const AuctionItem = () => {
 
   // Effect to detect when timeLeft is 0 and reload the page after 2 seconds
   useEffect(() => {
-    if (timeLeft === 0) {
+    if (timeLeft === 0 && bidders.length < 2) {
       const reloadTimeout = setTimeout(() => {
         console.log('Time expired. Reloading the page...');
         window.location.reload();
