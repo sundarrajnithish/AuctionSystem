@@ -10,7 +10,7 @@ import AuctionItems from './pages/AuctionItems';
 import AuctionItem from './pages/AuctionItem';
 import MyAuctions from './pages/MyAuctions';
 import AuctionFormPage from './pages/AuctionFormPage';
-import {Amplify} from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import { Authenticator, withAuthenticator } from '@aws-amplify/ui-react';
 import EditAuctionFormPage from './pages/EditAuctionFormPage';
 
@@ -22,6 +22,9 @@ import config from './amplifyconfiguration.json';
 import './App.css';
 import '@aws-amplify/ui-react/styles.css';
 
+// WebSocket Context
+import { WebSocketProvider } from './components/WebSocketContext';
+
 // Configure Amplify
 Amplify.configure(config);
 
@@ -31,23 +34,24 @@ function App({ user }) {
       // Save loginId to sessionStorage after login
       sessionStorage.setItem('loginId', user.signInDetails.loginId);
     }
-  }, [user]); // Only runs when the user object changes
+  }, [user]);
 
   return (
     <Authenticator>
-      <Router>
-        <Navbar />
-        {/* <h1>Logged in as {user?.signInDetails?.loginId}</h1> */}
-        <Routes>
-          <Route path="/" element={<Auctions />} /> {/* Auctions page */}
-          <Route path="/auction-items/:auctionId" element={<AuctionItems />} /> {/* Auction Items page */}
-          <Route path="/auction-item/:itemId" element={<AuctionItem />} /> {/* Auction Item detail page */}
-          <Route path="/my-auctions" element={<MyAuctions />} /> {/* My Auctions page */}
-          <Route path="/provider/add-auction" element={<AuctionFormPage />} /> {/* Product form page */}
-          <Route path="/provider/edit-auction/:auctionId" element={<EditAuctionFormPage />} />
-          <Route path="/list-item" element={<ItemFormPage />} /> {/* Product form page */}
-        </Routes>
-      </Router>
+      <WebSocketProvider>
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Auctions />} /> {/* Auctions page */}
+            <Route path="/auction-items/:auctionId" element={<AuctionItems />} /> {/* Auction Items page */}
+            <Route path="/auction-item/:itemId" element={<AuctionItem />} /> {/* Auction Item detail page */}
+            <Route path="/my-auctions" element={<MyAuctions />} /> {/* My Auctions page */}
+            <Route path="/provider/add-auction" element={<AuctionFormPage />} /> {/* Product form page */}
+            <Route path="/provider/edit-auction/:auctionId" element={<EditAuctionFormPage />} />
+            <Route path="/list-item" element={<ItemFormPage />} /> {/* Product form page */}
+          </Routes>
+        </Router>
+      </WebSocketProvider>
     </Authenticator>
   );
 }
