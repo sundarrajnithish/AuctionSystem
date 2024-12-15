@@ -4,9 +4,12 @@ import './Auctions.css'; // Ensure styles are applied
 
 const Auctions = () => {
   const navigate = useNavigate();
-  const [categories, setCategories] = useState([]); // State to store categories
+  const [categories, setCategories] = useState([]); // State to store auction categories
   const [loading, setLoading] = useState(true); // State to track loading status
   const [error, setError] = useState(null); // State to track errors
+  const [registeredAuctions, setRegisteredAuctions] = useState([]); // State to store registered auction IDs
+
+  const userId = sessionStorage.getItem('loginId'); // Get the user ID from session storage
 
   // Fetch categories from the API
   useEffect(() => {
@@ -19,7 +22,7 @@ const Auctions = () => {
           title: item['auction-name'].S,
           description: item['description'].S,
           imgUrl: item['img-url'].S,
-          auctionId: item['auction-id'].S, // Added auctionId for navigation
+          auctionId: item['auction-id'].S,
         }));
 
         setCategories(fetchedCategories); // Update state with fetched categories
@@ -31,14 +34,54 @@ const Auctions = () => {
       }
     };
 
-    fetchCategories();
-  }, []);
+    const fetchRegisteredAuctions = async () => {
+      if (!userId) return;
 
+      try {
+        const response = await fetch(`https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/registered-users?user-id=${userId}`);
+        const data = await response.json();
+
+        if (data.isRegistered) {
+          setRegisteredAuctions(data['auction-ids']);
+        }
+      } catch (err) {
+        console.error('Failed to fetch registered auctions:', err);
+      }
+    };
+
+    fetchCategories();
+    fetchRegisteredAuctions();
+  }, [userId]);
+
+  // Handle Register button click
+  const handleRegister = async (auctionId) => {
+    try {
+      const userId = sessionStorage.getItem('loginId');
+      const response = await fetch(
+        `https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/registered-users?user-id=${userId}&auction-id=${auctionId}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+  
+      if (!response.ok) {
+        throw new Error('Registration failed');
+      }
+  
+      alert('Registration successful!');
+  
+      // Update the registeredAuctions state to reflect the new registration
+      setRegisteredAuctions(prev => [...prev, auctionId]); // Add the auctionId to the list
+    } catch (error) {
+      console.error('Error registering for auction:', error);
+    }
+  };
+  
   const handleCategoryClick = (auctionId, title) => {
-    // Store the category title in sessionStorage
     sessionStorage.setItem('categoryTitle', title);
-    console.log('categoryTitle:', title);
-    // Navigate to AuctionItems page with auction-id in the URL
     navigate(`/auction-items/${auctionId}`);
   };
 
@@ -54,19 +97,32 @@ const Auctions = () => {
     <div className="home-container">
       <h1>EXPLORE LIVE AUCTIONS</h1>
       <div className="category-grid">
-      {categories.map((category, index) => (
-        <div
-          key={index}
-          className="category-tile"
-          onClick={() => handleCategoryClick(category.auctionId, category.title)} // Pass both auctionId and title
-        >
-          <img src={category.imgUrl} alt={category.title} className="category-img" />
-          <div className="category-content">
-            <h2 className="category-title">{category.title}</h2>
-            <p className="category-description">{category.description}</p>
-          </div>
-        </div>
-      ))}
+        {categories.map((category, index) => {
+          const isRegistered = registeredAuctions.includes(category.auctionId);
+
+          return (
+            <div key={index} className="category-tile">
+              <img
+                src={category.imgUrl}
+                alt={category.title}
+                className="category-img"
+                onClick={() => handleCategoryClick(category.auctionId, category.title)}
+              />
+              <div className="category-content">
+                <h2 className="category-title">{category.title}</h2>
+                <p className="category-description">{category.description}</p>
+                <div>
+                  <button
+                    className="category-button"
+                    onClick={() => handleRegister(category.auctionId)}
+                  >
+                    {isRegistered ? 'Deregister' : 'Register'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

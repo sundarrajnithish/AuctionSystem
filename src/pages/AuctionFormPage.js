@@ -49,7 +49,7 @@ const AuctionFormPage = () => {
         "auction-name": name,
         "description": description,
         "titleImage": titleImage,  // Sending the base64 image data
-        "user-id": userId // Sending the user-id
+        "user-id": userId, // Sending the user-id
       };
 
       try {
