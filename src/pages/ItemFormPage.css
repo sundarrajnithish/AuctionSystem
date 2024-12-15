@@ -1,119 +1,126 @@
 /* General Layout */
 .item-form-page {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 50px;
+  background-color: #1e1e1e; /* Dark background */
+  color: #f0f0f0; /* Light text color */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.item-form-page h1 {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #f0f0f0; /* Light text color */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Input Fields */
+input[type="text"],
+textarea,
+input[type="number"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #555; /* Darker border */
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #333; /* Dark input background */
+  color: #f0f0f0; /* Light text color */
+  outline: none;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+  border-color: #4CAF50; /* Green border on focus */
+}
+
+/* Textarea */
+textarea {
+  resize: vertical;
+}
+
+/* File Input (hidden) */
+input[type="file"] {
+  display: none;
+}
+
+/* Label */
+label {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #f0f0f0; /* Light text color */
+}
+
+/* Error message */
+.error {
+  color: #ff6347; /* Tomato red for error */
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* Image Preview */
+.image-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 200px;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+/* Submit Button */
+button {
+  padding: 12px;
+  background-color: #4CAF50; /* Green background */
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+/* Loading State */
+button:disabled {
+  background-color: #666; /* Disabled button background */
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .item-form-page {
+    padding: 15px;
   }
-  
+
   .item-form-page h1 {
-    font-size: 24px;
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 20px;
+    font-size: 20px;
   }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Input Fields */
+
   input[type="text"],
   textarea,
   input[type="number"] {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    outline: none;
-  }
-  
-  input[type="text"]:focus,
-  input[type="number"]:focus,
-  textarea:focus {
-    border-color: #4CAF50;
-  }
-  
-  textarea {
-    resize: vertical;
-  }
-  
-  input[type="file"] {
-    display: none;
-  }
-  
-  label {
-    font-size: 16px;
-    margin-bottom: 8px;
-  }
-  
-  /* Error message */
-  .error {
-    color: red;
     font-size: 14px;
-    margin-top: 4px;
   }
-  
-  /* Image Preview */
-  .image-preview {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .image-preview img {
-    max-width: 100%;
-    max-height: 200px;
-    margin-top: 10px;
-    border-radius: 4px;
-  }
-  
-  /* Submit Button */
+
   button {
-    padding: 12px;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 14px;
   }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  /* Loading State */
-  button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .item-form-page {
-      padding: 15px;
-    }
-  
-    .item-form-page h1 {
-      font-size: 20px;
-    }
-  
-    input[type="text"],
-    textarea,
-    input[type="number"] {
-      font-size: 14px;
-    }
-  
-    button {
-      font-size: 14px;
-    }
-  }
-  
+}

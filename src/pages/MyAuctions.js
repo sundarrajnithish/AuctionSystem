@@ -82,6 +82,8 @@ const MyAuctions = ({ user }) => {
       {loading && <div>Loading...</div>}
       {error && <div>{error}</div>}
 
+      <h1>YOUR ACTIVE AUCTIONS</h1>
+      
       <div className="auction-grid">
         <div className="add-auction-tile" onClick={() => navigate('/provider/add-auction')}>
           <div className="add-auction-tile-content">
@@ -94,8 +96,7 @@ const MyAuctions = ({ user }) => {
             <img src={auction['img-url']} alt={auction['auction-name']} className="auction-image" />
             <div className="auction-details">
               <h2 className="auction-name">{auction['auction-name']}</h2>
-              <p className="auction-status">Status: {auction.status}</p>
-              <p className="auction-bids">Bids: {auction['number-of-bids']}</p>
+              <p className="auction-bids">{auction['description']}</p>
               <div className="auction-actions">
                 <button onClick={() => handleEdit(auction['auction-id'])}>Edit</button>
                 <button onClick={() => handleDelete(auction['auction-id'])}>Delete</button>

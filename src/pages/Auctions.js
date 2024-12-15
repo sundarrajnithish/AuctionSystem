@@ -52,7 +52,7 @@ const Auctions = () => {
 
   return (
     <div className="home-container">
-      <h1>EXPLORE ACTIVE AUCTIONS</h1>
+      <h1>EXPLORE LIVE AUCTIONS</h1>
       <div className="category-grid">
       {categories.map((category, index) => (
         <div

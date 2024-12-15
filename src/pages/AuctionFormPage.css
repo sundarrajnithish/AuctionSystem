@@ -1,11 +1,12 @@
-/* General Layout */
+/* Dark-themed General Layout */
 .auction-form-page {
   max-width: 600px;
   margin: 200px auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #1e1e1e;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  color: #fff;
 }
 
 .auction-form-page h1 {
@@ -13,7 +14,7 @@
   font-weight: 600;
   text-align: center;
   margin-bottom: 20px;
-  columns: black;
+  color: #fff;
 }
 
 form {
@@ -27,10 +28,12 @@ textarea {
   width: 100%;
   padding: 12px;
   margin: 10px 0;
-  border: 1px solid #ccc;
+  border: 1px solid #555;
   border-radius: 4px;
   font-size: 16px;
   outline: none;
+  background-color: #333;
+  color: #fff;
 }
 
 input[type="text"]:focus,
@@ -49,6 +52,7 @@ input[type="file"] {
 label {
   font-size: 16px;
   margin-bottom: 8px;
+  color: #fff;
 }
 
 .error {
@@ -90,7 +94,7 @@ button:hover {
 
 /* Loading State */
 button:disabled {
-  background-color: #ccc;
+  background-color: #555;
   cursor: not-allowed;
 }
 

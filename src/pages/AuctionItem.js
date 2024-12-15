@@ -142,8 +142,7 @@ const AuctionItem = () => {
             <div className="auction-item-info">
               <h2>Description</h2>
               <p>{item.description}</p>
-              <h3>Current Bid: ${item['current-bid']}</h3>
-              <h3>Starting Bid: ${item['starting-bid']}</h3>
+              <h3>Starting Bid: ${item['starting-bid']} | Current Bid: ${item['current-bid']}</h3>
               <h4>Seller: {item['seller-id']}</h4>
               <h4>Time Remaining: {formatTime(timeLeft)}</h4>
 

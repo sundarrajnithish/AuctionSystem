@@ -34,6 +34,7 @@ const AuctionItems = () => {
           bidderId: item['bidder-id'],
           timestampListed: item['timestamp-listed'],
           timestampLastBid: item['timestamp-last-bid'],
+          winner: item['winner'],
         }));
 
         setItems(fetchedItems); // Update state with fetched items
@@ -80,17 +81,18 @@ const AuctionItems = () => {
       <h1>ITEMS LISTED IN {AuctionName}</h1>
 
       {/* List Your Items Tile */}
-      <div
+      
+
+      <div className="item-grid">
+        <div
         className="item-tile list-your-items-tile"
         onClick={() => navigate('/list-item')} // Redirect to listing page
       >
         <div className="item-content">
           <h2 className="item-title">List Your Items</h2>
-          <p className="item-description">Click here to list your items for auction</p>
+          <h2 className="item-description">Click here to list your items in this auction.</h2>
         </div>
       </div>
-
-      <div className="item-grid">
         {items.map(item => (
           <div
             key={item.id} // Use item.id as the key
@@ -104,11 +106,11 @@ const AuctionItems = () => {
               <p className="item-bid">
                 Current Bid: ${item.currentBid} (Starting: ${item.startingBid})
               </p>
+              <p className="item-bid">
+                 {item.winner ? `Won by ${item.winner}` : "Active"}
+              </p>
               <p className="item-seller">
                 Seller: {item.sellerId}
-              </p>
-              <p className="item-last-bid">
-                Last Bid: {item.timestampLastBid !== "none" ? item.timestampLastBid : "No bids yet"}
               </p>
               <p className="item-listed">
                 Listed: {new Date(item.timestampListed).toLocaleString()}

@@ -1,22 +1,24 @@
-/* General container styling */
+/* Dark-themed General container styling */
 .auction-items-container {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
   font-family: 'Arial', sans-serif;
+  background-color: #121212;
+  color: #fff;
 }
 
 /* Header Styling */
 .auction-items-container h1 {
   font-size: 28px;
-  color: #333;
+  color: #fff;
   text-align: center;
   margin-bottom: 30px;
 }
 
 /* Button to List Items */
 .list-items-btn {
-  background-color: #007BFF;
+  background-color: #ff9900;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -32,17 +34,17 @@
 }
 
 .list-items-btn:hover {
-  background-color: #0056b3;
+  background-color: #e68900; /* Fixed hover color */
 }
 
 /* List Your Items Tile Styling */
 .list-your-items-tile {
-  background-color: #f8f9fa;
+  background-color: #1e1e1e;
   padding: 20px;
   margin-bottom: 20px;
   cursor: pointer;
   border-radius: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid #444;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -50,7 +52,7 @@
 }
 
 .list-your-items-tile:hover {
-  background-color: #e9ecef;
+  background-color: #2a2a2a;
 }
 
 .list-your-items-tile .item-content {
@@ -61,29 +63,29 @@
 .list-your-items-tile .item-title {
   font-size: 22px;
   font-weight: bold;
-  color: #333;
+  color: #fff;
   margin-bottom: 10px;
 }
 
 .list-your-items-tile .item-description {
   font-size: 14px;
-  color: #555;
+  color: #bbb;
   max-width: 500px;
 }
 
 /* Item Grid Styling */
 .item-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Ensures even distribution */
   gap: 20px;
   padding-top: 20px;
 }
 
 /* Individual Item Tile Styling */
 .item-tile {
-  background-color: #ffffff;
+  background-color: #2a2929;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -91,7 +93,7 @@
 
 .item-tile:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .item-img {
@@ -102,20 +104,19 @@
 
 /* Enhancing the item details */
 .item-content {
-  padding: 15px;
-  background-color: #fafafa; /* Subtle background color to highlight content */
+  padding: 20px;
 }
 
 .item-title {
   font-size: 20px;
   font-weight: bold;
-  color: #333;
+  color: #fff;
   margin-bottom: 15px;
 }
 
 .item-description {
   font-size: 14px;
-  color: #555;
+  color: #bbb;
   margin-bottom: 20px;
   max-height: 80px;
   overflow: hidden;
@@ -128,33 +129,26 @@
 .item-last-bid,
 .item-listed {
   font-size: 14px;
-  color: #777;
+  color: #bbb;
   margin-top: 8px;
 }
 
 .item-bid {
   font-weight: bold;
   font-size: 16px;
-  color: #d9534f; /* Red for emphasis */
+  color: #d9534f;
 }
 
 .item-seller {
   font-size: 14px;
-  color: #5bc0de; /* Blue for seller info */
+  color: #5bc0de;
 }
 
 .item-last-bid {
   font-size: 14px;
-  color: #5bc0de; /* Blue for bid info */
+  color: #5bc0de;
 }
 
-.item-listed {
-  font-size: 13px;
-  color: #aaa;
-  font-style: italic;
-}
-
-.item-last-bid,
 .item-listed {
   font-size: 13px;
   color: #aaa;
@@ -163,11 +157,11 @@
 
 /* Enhancing hover effect for details */
 .item-tile:hover .item-title {
-  color: #007bff; /* Highlight title on hover */
+  color: #ff9900;
 }
 
 .item-tile:hover .item-bid {
-  color: #c9302c; /* Darker red for bids on hover */
+  color: #c9302c;
 }
 
 /* Media Queries for Responsiveness */
