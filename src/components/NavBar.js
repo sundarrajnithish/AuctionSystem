@@ -10,6 +10,7 @@ const Navbar = () => {
   const { messages } = useWebSocket(); // Access WebSocket messages from context
   const [notificationCount, setNotificationCount] = useState(0); // Store the count of new notifications
   const navigate = useNavigate(); // Hook to handle navigation
+  const userEmail = sessionStorage.getItem('loginId'); // Get the logged-in user email
 
   // Toggle menu for mobile view
   const toggleMenu = () => {
@@ -29,9 +30,57 @@ const Navbar = () => {
   // Update notification count when new messages are received
   useEffect(() => {
     setNotificationCount(messages.length);
-  }, [messages]); // This will trigger every time `messages` array changes
+    handleNotifications(messages);
+  }, [messages]);
 
-  console.log('Messages:', messages);
+  // Function to handle notification logic based on auction items and auctions table
+  const handleNotifications = (messages) => {
+    messages.forEach((message) => {
+      if (message.Event === 'MODIFY') {
+        if (message.SourceTable === 'auctions') {
+          // Check if the user is registered for the auction
+          const registeredUsers = message.NewImage['registered-users']?.L;
+          if (registeredUsers && registeredUsers.some(user => user.S === userEmail)) {
+            notifyUser(`You are registered for the auction: ${message.NewImage['auction-name'].S}`);
+          }
+        } else if (message.SourceTable === 'auction-items') {
+          // Watch for changes in the bidders array
+          const bidders = message.NewImage['bidders']?.L;
+          const currentBid = message.NewImage['current-bid']?.N;
+          const itemName = message.NewImage['item-name']?.S;
+          const timestampListed = new Date(message.NewImage['timestamp-listed']?.S).getTime();
+          const winnerEmail = message.NewImage['winner']?.S;
+  
+          if (bidders) {
+            bidders.forEach((bidder) => {
+              const bidderEmail = bidder.M['bidder-id']?.S;
+              const bidAmount = bidder.M['bid-amount']?.N;
+  
+              if (bidderEmail === userEmail) {
+                // Notify about successful bid
+                notifyUser(`Your bid of $${bidAmount} is successful. Current bid: $${currentBid}`);
+              }
+  
+              // Notify about any new bids (additional bidders)
+              notifyUser(`${bidderEmail} has bid $${bidAmount}. Current bid: $${currentBid}`);
+            });
+          }
+  
+          // Winning notification if the user is the winner and auction has ended (5 mins from timestamp-listed)
+          if (winnerEmail === userEmail && Date.now() - timestampListed > 5 * 60 * 1000) {
+            notifyUser(`You have won the auction: ${itemName}`);
+          }
+        }
+      }
+    });
+  };
+  
+
+  // Function to send a notification to the user
+  const notifyUser = (message) => {
+    // Push notification logic or set state to show the notification
+    alert(message); // Simple alert for demonstration
+  };
 
   return (
     <Authenticator>
@@ -76,7 +125,7 @@ const Navbar = () => {
           {/* Notification Bell and Tile */}
           <div className="notification-box">
             <button onClick={toggleNotifications} className="notification-icon">
-            <i className="fas fa-inbox" style={{ fontSize: '20px', color: 'white' }}></i>
+              <i className="fas fa-bell"></i>
               {notificationCount > 0 && (
                 <span className="notification-badge">{notificationCount}</span>
               )}
@@ -87,7 +136,13 @@ const Navbar = () => {
                 <ul>
                   {messages.map((message, index) => (
                     <li key={index} className="notification-item">
-                      <p>{message.Event}: {message.NewImage?.item}</p>
+                      {/* Display detailed notifications */}
+                      {message.Event === 'MODIFY' && message.SourceTable === 'auctions' && (
+                        <p>{message.NewImage['auction-name'].S} - You are registered for this auction!</p>
+                      )}
+                      {message.Event === 'MODIFY' && message.SourceTable === 'auction-items' && (
+                        <p>{message.NewImage['item-name'].S} - Bid placed! Current bid: ${message.NewImage['current-bid'].N}</p>
+                      )}
                     </li>
                   ))}
                 </ul>
