@@ -171,7 +171,7 @@ const AuctionItem = () => {
 
           {timeLeft === 0 && (
           (() => {
-            return <div className="auction-winner"><h2>Auction Ended. Winner: ${item['winner'] || 'No bids placed'}</h2></div>;
+            return <div className="auction-winner"><h2>Auction Ended. Winner: ${item['winner'] || 'No bids placed, restarting...'}</h2></div>;
           })()
         )}
 
