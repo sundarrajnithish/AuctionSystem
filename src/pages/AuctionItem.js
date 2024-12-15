@@ -72,20 +72,9 @@ const AuctionItem = () => {
   }, [itemId]);
 
   const bid = sessionStorage.getItem('bidders');
-  console.log('Bid:', bid);
-  // Effect to detect when timeLeft is 0 and reload the page after 2 seconds
-  useEffect(() => {
-    if (timeLeft === 0 && bid.length == 0) {
-      console.log();
-      const reloadTimeout = setTimeout(() => {
-        console.log('Time expired. Reloading the page...');
-        window.location.reload();
-      }, 2000); // 2 seconds
-
-      return () => clearTimeout(reloadTimeout); // Cleanup timeout on component unmount
-    }
-  }, [timeLeft]);
-
+  // Debugging
+  // console.log('Bid:', bid);
+  // console.log(bid.length);
 
   // Handle bidding
   const handleBid = async () => {
@@ -181,10 +170,21 @@ const AuctionItem = () => {
           </div>
 
           {timeLeft === 0 && (
-            <div className="auction-winner">
-              <h2>{`Auction Ended. Winner: ${item['winner'] || 'No bids placed'}`}</h2>
-            </div>
-          )}
+          (() => {
+            return <div className="auction-winner"><h2>Auction Ended. Winner: ${item['winner'] || 'No bids placed'}</h2></div>;
+          })()
+        )}
+
+
+          {timeLeft === 0 && bid.length < 3 && (
+          (() => {
+            setTimeout(() => {
+              console.log('Time expired. Reloading the page...');
+              window.location.reload();
+            }, 2000); // Reload after 2 seconds
+            return <div></div>;
+          })()
+        )}
         </>
       )}
     </div>
