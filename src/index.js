@@ -1,12 +1,28 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import App from "./App";
+
+import config from "./amplifyconfiguration.json";
+//styles
+import "./Styles/App.css";
+import "@aws-amplify/ui-react/styles.css";
+
+//wrapper Imports
+import { Authenticator } from "@aws-amplify/ui-react";
+import { WebSocketProvider } from "./components/WebSocketContext";
+
+//amplify Imports
+import { Amplify } from "aws-amplify";
+
+Amplify.configure(config);
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <Authenticator>
+      <WebSocketProvider>
+        <App />
+      </WebSocketProvider>
+    </Authenticator>
   </React.StrictMode>
 );
-
