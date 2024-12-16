@@ -12,7 +12,11 @@ const Navbar = () => {
   const [auctionStartTime, setAuctionStartTime] = useState(null);
   const [isAuctionFinalized, setIsAuctionFinalized] = useState(false);
   const [processedMessageIds, setProcessedMessageIds] = useState(new Set());
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState(() => {
+    // Retrieve notifications from sessionStorage on initial load
+    const savedNotifications = sessionStorage.getItem('notifications');
+    return savedNotifications ? JSON.parse(savedNotifications) : [];
+  });
   const navigate = useNavigate();
   const userEmail = sessionStorage.getItem('loginId');
 
@@ -26,12 +30,17 @@ const Navbar = () => {
   const toggleNotifications = () => setIsNotificationsOpen(!isNotificationsOpen);
 
   // Clear all notifications
-  const clearNotifications = () => setNotifications([]);
+  const clearNotifications = () => {
+    setNotifications([]);
+    sessionStorage.setItem('notifications', JSON.stringify([])); // Clear notifications in sessionStorage
+  };
 
   // Function to add notification
   const addNotification = useCallback((text) => {
-    setNotifications((prev) => [...prev, { text, id: `${Date.now()}-${Math.random()}` }]);
-  }, []);
+    const newNotifications = [...notifications, { text, id: `${Date.now()}-${Math.random()}` }];
+    setNotifications(newNotifications);
+    sessionStorage.setItem('notifications', JSON.stringify(newNotifications)); // Save to sessionStorage
+  }, [notifications]);
 
   const [lastCheckTime, setLastCheckTime] = useState(Date.now());
   const [auctionTimers, setAuctionTimers] = useState({});
