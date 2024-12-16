@@ -63,7 +63,7 @@ const Navbar = () => {
       if (!processedMessageIds.has(messageId)) {
         const { bidders, 'item-name': itemName, 'timestamp-listed': timestampListed, 'timestamp-last-bid': timestampLastBid, 'seller-id': sellerId } = message.NewImage;
         const auctionTimestamp = timestampListed || timestampLastBid; // Use 'timestamp-listed' or 'timestamp-last-bid'
-        console.log('Auction Timestamp:', auctionTimestamp);
+        // console.log('Auction Timestamp:', auctionTimestamp);
 
         if (bidders && bidders.length > 0) {
           setAuctionData({ ...message.NewImage, bidders });
@@ -83,7 +83,7 @@ const Navbar = () => {
           const timer = setTimeout(() => {
             const now = new Date();
             const timeDifferenceInSeconds = (now - new Date(auctionTimestamp)) / 1000; // Convert to seconds
-            console.log('Time difference in seconds:', timeDifferenceInSeconds);
+            // console.log('Time difference in seconds:', timeDifferenceInSeconds);
             
             // Use switch-case for different auction scenarios
             switch (true) {
@@ -101,7 +101,7 @@ const Navbar = () => {
                 setAuctionTimers(prev => ({ ...prev, [message.MessageId]: null }));
                 break;
               default:
-                console.log('Auction is still ongoing, no actions triggered.');
+                // console.log('Auction is still ongoing, no actions triggered.');
                 break;
             }
           }, Math.max(0, 300000 - (Date.now() - new Date(auctionTimestamp).getTime()))); // Wait exactly 5 minutes from auction timestamp
