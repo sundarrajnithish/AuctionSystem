@@ -57,6 +57,7 @@ const MyAuctions = ({ user }) => {
       if (response.ok) {
         setSuccessPopupVisible(true);
         fetchAuctions(userEmail); // Refresh auctions list after deletion
+        window.location.reload();
       } else {
         throw new Error('Failed to delete auction');
       }
