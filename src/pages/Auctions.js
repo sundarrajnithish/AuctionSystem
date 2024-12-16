@@ -133,7 +133,7 @@ const Auctions = () => {
                 src={category.imgUrl}
                 alt={category.title}
                 className="category-img"
-                onClick={() => handleCategoryClick(category.auctionId, category.title)}
+                onClick={() => isRegistered? handleCategoryClick(category.auctionId, category.title): alert('Please register to view items')}
               />
               <div className="category-content">
                 <h2 className="category-title">{category.title}</h2>
