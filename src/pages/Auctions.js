@@ -56,7 +56,6 @@ const Auctions = () => {
   // Handle Register button click
   const handleRegister = async (auctionId) => {
     try {
-      const userId = sessionStorage.getItem('loginId');
       const response = await fetch(
         `https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/registered-users?user-id=${userId}&auction-id=${auctionId}`,
         {
@@ -79,7 +78,35 @@ const Auctions = () => {
       console.error('Error registering for auction:', error);
     }
   };
-  
+
+  // Handle Deregister button click
+  const handleDeregister = async (auctionId) => {
+    try {
+      const response = await fetch(
+        `https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/registered-users?user-id=${userId}&auction-id=${auctionId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const Response = await response.json();
+        alert('Deregistration failed: ' + Response["message"]);
+        throw new Error('Deregistration failed: ' + Response["message"]);
+      }
+
+      alert('Deregistration successful!');
+      
+      // Update the registeredAuctions state to reflect the deregistration
+      setRegisteredAuctions(prev => prev.filter(id => id !== auctionId)); // Remove the auctionId from the list
+    } catch (error) {
+      console.error('Error deregistering from auction:', error);
+    }
+  };
+
   const handleCategoryClick = (auctionId, title) => {
     sessionStorage.setItem('categoryTitle', title);
     navigate(`/auction-items/${auctionId}`);
@@ -114,7 +141,7 @@ const Auctions = () => {
                 <div>
                   <button
                     className="category-button"
-                    onClick={() => handleRegister(category.auctionId)}
+                    onClick={() => isRegistered ? handleDeregister(category.auctionId) : handleRegister(category.auctionId)}
                   >
                     {isRegistered ? 'Deregister' : 'Register'}
                   </button>
