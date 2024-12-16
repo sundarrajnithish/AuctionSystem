@@ -1,14 +1,11 @@
-import React, { useState } from "react";
-import {
-  enhanceDescriptionWithAI,
-  postAuctionFormData,
-} from "../Services/auctionformServices";
-import Swal from "sweetalert2";
+import React, { useState } from 'react';
+
+import './AuctionFormPage.css';
 
 const AuctionFormPage = () => {
   // State for form fields
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const [titleImage, setTitleImage] = useState(null);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -18,16 +15,16 @@ const AuctionFormPage = () => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-    reader.onloadend = () => setTitleImage(reader.result.split(",")[1]); // Set base64 encoded string
+    reader.onloadend = () => setTitleImage(reader.result.split(',')[1]); // Set base64 encoded string
     reader.readAsDataURL(file); // Convert file to base64
   };
 
   // Form validation
   const validateForm = () => {
     const newErrors = {};
-    if (!name) newErrors.name = "Auction name is required";
-    if (!description) newErrors.description = "Description is required";
-    if (!titleImage) newErrors.titleImage = "Auction image is required";
+    if (!name) newErrors.name = 'Auction name is required';
+    if (!description) newErrors.description = 'Description is required';
+    if (!titleImage) newErrors.titleImage = 'Auction image is required';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -39,11 +36,11 @@ const AuctionFormPage = () => {
       setLoading(true);
 
       // Get user-id from sessionStorage
-      const userId = sessionStorage.getItem("loginId"); // Assuming loginId is the user ID
+      const userId = sessionStorage.getItem('loginId'); // Assuming loginId is the user ID
 
       // Check if userId exists
       if (!userId) {
-        alert("User not logged in");
+        alert('User not logged in');
         setLoading(false);
         return;
       }
@@ -51,73 +48,60 @@ const AuctionFormPage = () => {
       // Correct the payload structure
       const auctionData = {
         "auction-name": name,
-        description,
-        titleImage, // Sending the base64 image data
+        "description": description,
+        "titleImage": titleImage,  // Sending the base64 image data
         "user-id": userId, // Sending the user-id
       };
-      postAuctionFormData(JSON.stringify(auctionData))
-        .then(
-          (res) => {
-            Swal.fire({
-              title: "Auction created successfully!",
-              icon: "success",
-            });
-            setName("");
-            setDescription("");
-            setTitleImage(null);
-            window.history.back();
-          },
-          (err) => {
-            console.log(err);
-            Swal.fire({
-              title: "Failed To Save Auction",
-              icon: "error",
-            });
-          }
-        )
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setLoading(false);
+
+      try {
+        const response = await fetch('https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(auctionData) // Send correctly formatted auction data
         });
+
+        if (response.ok) {
+          alert('Auction created successfully!');
+          setName('');
+          setDescription('');
+          setTitleImage(null);
+          window.history.back();
+        } else {
+          alert('Failed to save auction');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while saving the auction.');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
   const handleEnhanceDescription = async () => {
     if (!description) {
-      Swal.fire({
-        title: "Please enter a description to enhance.",
-        timer: 1000,
-      });
+      alert('Please enter a description to enhance.');
       return;
     }
 
     setEnhancing(true);
-    enhanceDescriptionWithAI(description)
-      .then(
-        (res) => {
-          setDescription(res.data.description);
-          Swal.fire({
-            title: "Your Description has been enhanced",
-            icon: "success",
-            timer: "1000",
-          });
-        },
-        (err) => {
-          Swal.fire({ title: "Failed to Enhance description", icon: "error" });
-        }
-      )
-      .catch((err) => {
-        console.log(err);
-        Swal.fire({
-          title: "Unexpected Error occured while enhancing the description",
-          icon: "error",
-        });
-      })
-      .finally(() => {
-        setEnhancing(false);
-      });
+
+    try {
+      const apiUrl = `https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/items/AI?keywords=${encodeURIComponent(description)}&type=1`;
+      const response = await fetch(apiUrl);
+
+      if (response.ok) {
+        const data = await response.json();
+        setDescription(data.description); // Update the description field with the enhanced description
+      } else {
+        alert('Failed to enhance description');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while enhancing the description.');
+    } finally {
+      setEnhancing(false);
+    }
   };
 
   return (
@@ -148,12 +132,8 @@ const AuctionFormPage = () => {
           {errors.description && <p className="error">{errors.description}</p>}
         </div>
 
-        <button
-          type="button"
-          onClick={handleEnhanceDescription}
-          disabled={enhancing}
-        >
-          {enhancing ? "Enhancing..." : "Enhance Description with AI"}
+        <button type="button" onClick={handleEnhanceDescription} disabled={enhancing}>
+          {enhancing ? 'Enhancing...' : 'Enhance Description with AI'}
         </button>
 
         {/* Title Image */}
@@ -165,14 +145,12 @@ const AuctionFormPage = () => {
             accept="image/*"
             onChange={handleImageChange}
           />
-          {titleImage && (
-            <img src={`data:image/jpeg;base64,${titleImage}`} alt="Preview" />
-          )}
+          {titleImage && <img src={`data:image/jpeg;base64,${titleImage}`} alt="Preview" />}
           {errors.titleImage && <p className="error">{errors.titleImage}</p>}
         </div>
 
         <button type="submit" disabled={loading}>
-          {loading ? "Creating Auction..." : "Add Auction"}
+          {loading ? 'Creating Auction...' : 'Add Auction'}
         </button>
       </form>
     </div>

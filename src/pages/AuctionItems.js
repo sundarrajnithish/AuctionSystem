@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { getAuctionItems } from "../Services/auctionItemServices";
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import './AuctionItems.css'; // Ensure styles are applied
 
 const AuctionItems = () => {
   const { auctionId } = useParams(); // Get auction-id from URL params
@@ -12,46 +13,41 @@ const AuctionItems = () => {
   // Store the auctionId in sessionStorage
   useEffect(() => {
     if (auctionId) {
-      sessionStorage.setItem("auctionId", auctionId); // Store auctionId in sessionStorage
+      sessionStorage.setItem('auctionId', auctionId); // Store auctionId in sessionStorage
     }
   }, [auctionId]);
 
   // Fetch auction items for the specific auction-id
   const fetchAuctionItems = async () => {
-    getAuctionItems(auctionId)
-      .then(
-        (res) => {
-          console.log(res.data);
-          const data = res.data;
-          if (data.message === "Items retrieved successfully") {
-            const fetchedItems = data.data.map((item) => ({
-              id: item["item-id"],
-              itemName: item["item-name"],
-              description: item.description,
-              imgUrl: item["img-url"],
-              currentBid: item["current-bid"],
-              startingBid: item["starting-bid"],
-              sellerId: item["seller-id"],
-              bidderId: item["bidder-id"],
-              timestampListed: item["timestamp-listed"],
-              timestampLastBid: item["timestamp-last-bid"],
-              winner: item["winner"],
-            }));
-            setItems(fetchedItems); // Update state with fetched items
-          } else {
-            setError("No items found for this auction.");
-          }
-        },
-        (err) => {
-          console.log(err);
-        }
-      )
-      .catch((err) => {
-        setError("Failed to fetch auction items");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    try {
+      const response = await fetch(`https://51br6s96b3.execute-api.ca-central-1.amazonaws.com/auctionsystem/auctions/items?auction-id=${auctionId}`);
+      const data = await response.json();
+
+      if (data.message === "Items retrieved successfully") {
+        const fetchedItems = data.data.map(item => ({
+          id: item['item-id'],
+          itemName: item['item-name'],
+          description: item.description,
+          imgUrl: item['img-url'],
+          currentBid: item['current-bid'],
+          startingBid: item['starting-bid'],
+          sellerId: item['seller-id'],
+          bidderId: item['bidder-id'],
+          timestampListed: item['timestamp-listed'],
+          timestampLastBid: item['timestamp-last-bid'],
+          winner: item['winner'],
+        }));
+
+        setItems(fetchedItems); // Update state with fetched items
+      } else {
+        setError('No items found for this auction.');
+      }
+    } catch (err) {
+      setError('Failed to fetch auction items');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -76,7 +72,7 @@ const AuctionItems = () => {
     return <div>{error}</div>;
   }
 
-  const AuctionName = sessionStorage.getItem("categoryTitle"); // Get the auction category name
+  const AuctionName = sessionStorage.getItem('categoryTitle'); // Get the auction category name
 
   return (
     <div className="auction-items-container">
@@ -86,20 +82,19 @@ const AuctionItems = () => {
       <h1>ITEMS LISTED IN {AuctionName}</h1>
 
       {/* List Your Items Tile */}
+      
 
       <div className="item-grid">
         <div
-          className="item-tile list-your-items-tile"
-          onClick={() => navigate("/list-item")} // Redirect to listing page
-        >
-          <div className="item-content">
-            <h2 className="item-title">List Your Items</h2>
-            <h2 className="item-description">
-              Click here to list your items in this auction.
-            </h2>
-          </div>
+        className="item-tile list-your-items-tile"
+        onClick={() => navigate('/list-item')} // Redirect to listing page
+      >
+        <div className="item-content">
+          <h2 className="item-title">List Your Items</h2>
+          <h2 className="item-description">Click here to list your items in this auction.</h2>
         </div>
-        {items.map((item) => (
+      </div>
+        {items.map(item => (
           <div
             key={item.id} // Use item.id as the key
             className="item-tile"
@@ -113,9 +108,11 @@ const AuctionItems = () => {
                 Current Bid: ${item.currentBid} (Starting: ${item.startingBid})
               </p>
               <p className="item-bid">
-                {item.winner ? `Won by ${item.winner}` : "Active"}
+                 {item.winner ? `Won by ${item.winner}` : "Active"}
               </p>
-              <p className="item-seller">Seller: {item.sellerId}</p>
+              <p className="item-seller">
+                Seller: {item.sellerId}
+              </p>
               <p className="item-listed">
                 Listed: {new Date(item.timestampListed).toLocaleString()}
               </p>

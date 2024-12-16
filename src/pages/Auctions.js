@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+import "./Auctions.css"; // Ensure styles are applied
+
 const Auctions = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]); // State to store auction categories
