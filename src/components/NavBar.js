@@ -63,7 +63,6 @@ const Navbar = () => {
       if (!processedMessageIds.has(messageId)) {
         const { bidders, 'item-name': itemName, 'timestamp-listed': timestampListed, 'timestamp-last-bid': timestampLastBid, 'seller-id': sellerId } = message.NewImage;
         const auctionTimestamp = timestampListed || timestampLastBid; // Use 'timestamp-listed' or 'timestamp-last-bid'
-        // console.log('Auction Timestamp:', auctionTimestamp);
 
         if (bidders && bidders.length > 0) {
           setAuctionData({ ...message.NewImage, bidders });
@@ -78,33 +77,30 @@ const Navbar = () => {
           if (bidders.some(bidder => bidder['bidder-id'] === userEmail)) {
             addNotification(`The current highest bidder on ${itemName} is bidding: $${highestBidder['bid-amount']} by ${highestBidder['bidder-id']}.`);
           }
-
           // Timer logic for auction completion
-          const timer = setTimeout(() => {
+          const timer = setInterval(() => {
             const now = new Date();
-            const timeDifferenceInSeconds = (now - new Date(auctionTimestamp)) / 1000; // Convert to seconds
-            // console.log('Time difference in seconds:', timeDifferenceInSeconds);
-            
-            // Use switch-case for different auction scenarios
-            switch (true) {
-              case timeDifferenceInSeconds >= 300: // 5 minutes in seconds
-                if (highestBidder['bidder-id'] === userEmail) {
-                  addNotification(`Congratulations! You have won the auction for ${itemName} with a bid of $${highestBidder['bid-amount']}.`);
-                } else if (bidders.some(bidder => bidder['bidder-id'] !== userEmail)) {
-                  addNotification(`The auction for ${itemName} has ended. The winning bid was $${highestBidder['bid-amount']} by ${highestBidder['bidder-id']}.`);
-                }
-
-                if (userEmail === sellerId) {
-                  addNotification(`Your item "${itemName}" has been sold to ${highestBidder['bidder-id']} for $${highestBidder['bid-amount']}.`);
-                }
-
-                setAuctionTimers(prev => ({ ...prev, [message.MessageId]: null }));
-                break;
-              default:
-                // console.log('Auction is still ongoing, no actions triggered.');
-                break;
+            const timeDifferenceInSeconds = (now - new Date(auctionTimestamp)) / 1000;
+            // console.log('Time difference:', timeDifferenceInSeconds);
+            // console.log(highestBidder['bidder-id'], userEmail, sellerId);
+            const winnercheck = userEmail !== bidders.some(bidder => bidder['bidder-id']);
+            const selfcheck = userEmail === highestBidder['bidder-id'];
+            const sellercheck = userEmail === sellerId;
+            // console.log(selfcheck, sellercheck, winnercheck);
+            if (timeDifferenceInSeconds >= 300 && selfcheck) { // Auction ends
+              addNotification(`Congratulations! You have won the auction for ${itemName} with a bid of $${highestBidder['bid-amount']}.`);
+            if (timeDifferenceInSeconds >= 300 && winnercheck) {
+                addNotification(`The auction for ${itemName} has ended. The winning bid was $${highestBidder['bid-amount']} by ${highestBidder['bidder-id']}.`);
+              }
+            if (timeDifferenceInSeconds >= 300 && sellercheck) {
+                addNotification(`Your item "${itemName}" has been sold to ${highestBidder['bidder-id']} for $${highestBidder['bid-amount']}.`);
+              }
+          
+              setIsAuctionFinalized(true); // Update state
+              clearInterval(timer); // Stop further checks
             }
-          }, Math.max(0, 300000 - (Date.now() - new Date(auctionTimestamp).getTime()))); // Wait exactly 5 minutes from auction timestamp
+          }, 5000);
+          
 
           setAuctionTimers(prev => ({ ...prev, [message.MessageId]: timer }));
         }
