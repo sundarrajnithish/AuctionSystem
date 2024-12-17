@@ -102,7 +102,18 @@ const Navbar = () => {
         const auctionTimestamp = timestampListed || timestampLastBid; // Use 'timestamp-listed' or 'timestamp-last-bid'
         
         if (registeredAuctions.includes(auctionId)) {
-          addNotification(`New item added to auction: ${itemName}`);
+          const text1 = `New item added to auction: ${itemName}`;
+
+          const newNotifications = [
+            ...notifications,
+            { text: text1, id: `${Date.now()}-${Math.random()}` },
+          ];
+          
+          setNotifications(newNotifications);
+          sessionStorage.setItem(
+            "notifications",
+            JSON.stringify(newNotifications)
+          ); // Save to sessionStorage
         }
 
         if (bidders && bidders.length > 0) {
