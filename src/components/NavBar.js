@@ -151,36 +151,17 @@ const Navbar = () => {
               timeDifferenceInSeconds >= 300 &&
               (selfcheck || winnercheck || sellercheck)
             ) {
-              const text1 = `Congratulations! You have won the auction for ${itemName} with a bid of $${highestBidder["bid-amount"]}.`;
-              const text2 = `The auction for ${itemName} has ended. The winning bid was $${highestBidder["bid-amount"]} by ${highestBidder["bidder-id"]}.`;
-              const text3 = `Your item "${itemName}" has been sold to ${highestBidder["bidder-id"]} for $${highestBidder["bid-amount"]}.`;
+              const text1 = `The auction for ${itemName} has ended. The winning bid was $${highestBidder["bid-amount"]} by ${highestBidder["bidder-id"]}.`;
 
               const newNotifications = [
                 ...notifications,
                 { text: text1, id: `${Date.now()}-${Math.random()}` },
               ];
               setNotifications(newNotifications);
-              const newNotifications2 = [
-                ...newNotifications,
-                { text: text2, id: `${Date.now()}-${Math.random()}` },
-              ];
-              setNotifications(newNotifications2);
-              const newNotifications3 = [
-                ...newNotifications2,
-                { text: text3, id: `${Date.now()}-${Math.random()}` },
-              ];
-              setNotifications(newNotifications3);
+              
               sessionStorage.setItem(
                 "notifications",
                 JSON.stringify(newNotifications)
-              ); // Save to sessionStorage
-              sessionStorage.setItem(
-                "notifications",
-                JSON.stringify(newNotifications2)
-              ); // Save to sessionStorage
-              sessionStorage.setItem(
-                "notifications",
-                JSON.stringify(newNotifications3)
               ); // Save to sessionStorage
 
               setIsAuctionFinalized(true); // Update state
