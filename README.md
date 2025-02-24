@@ -10,14 +10,16 @@ AuctionHub is a cloud-based online auction system designed for scalability, reli
 - Email verification and session management for **seamless user experience**.  
 
   ![User Login](images/signin.png)  
-  ![User Registration](images/signup.png)  
+  ![User Registration](images/signup.png)
+  ![User Verification](images/emailverify.png)  
 
 ### **Auction Management**  
 - Sellers can create and manage auctions, specifying item details such as:  
   - Item name, description, starting bid, and images.  
   - Auctions automatically close when bidding ends.  
 - Buyers can **browse and participate in real-time bidding**.  
-  
+
+  ![Auction Flow](images/Flow.png)  
   ![Auction Listings](images/liveauc.png)  
 
 ### **Real-time Bidding System**  
@@ -52,6 +54,10 @@ AuctionHub is a cloud-based online auction system designed for scalability, reli
 
 ## **System Architecture**  
 The system follows a **client-server model** with a clear separation between frontend and backend components:  
+
+![Notification Flow](images/Notify.png)  
+![Database Flow](images/DYNDB.png)  
+![GroqAI Flow](images/AI.png)  
 
 ### **Frontend (React.js)**
 - Developed using **React.js**, deployed on **AWS Amplify** for scalability.  
